@@ -1,0 +1,59 @@
+Analysis of my aggregated data:
+
+$ for plr in datasets/*; do echo "\n$plr"; cat $plr/* | python stats.py --file -; done
+
+datasets/libertarian
+reading data from file
+read data at 0.073
+sorted data at 0.082
+average £4836 ± £1671 (variance £²2790999)
+min: 0; max: 12755
+LQ: 3642; median: 4712; UQ: 5908
+
+datasets/mtn_dew
+reading data from file
+read data at 0.156
+sorted data at 0.187
+average £4857 ± £2618 (variance £²6853441)
+min: 0; max: 17612
+LQ: 2914; median: 4386; UQ: 6306
+
+datasets/mvd
+reading data from file
+read data at 0.086
+sorted data at 0.097
+average £4958 ± £1677 (variance £²2811440)
+min: 0; max: 11858
+LQ: 3768; median: 4844; UQ: 6000
+
+datasets/unethical
+reading data from file
+read data at 0.085
+sorted data at 0.099
+average £3933 ± £3872 (variance £²14994917)
+min: -8653; max: 19440
+LQ: 224; median: 4412; UQ: 6742
+
+datasets/woody
+reading data from file
+read data at 0.103
+sorted data at 0.109
+average £2832 ± £7 (variance £²43)
+min: 2826; max: 2861
+LQ: 2826; median: 2834; UQ: 2835
+
+Generating data:
+
+$ python stats.py --player mvd -n 200000
+
+collecting data for mvd
+intitialised at 0.000s
+(13.023s) progress:  99% ...................................................................................................
+done; completed 200000 games in 13.154s (that's 15205 games/s)
+sorting
+sorted
+serialising to 'datasets/mvd/200000-2017-12-18-23-25-14.dat'
+serialised
+average £4951 ± £1678 (variance £²2815381)
+min: 0; max: 11856
+LQ: 3735; median: 4842; UQ: 6000
