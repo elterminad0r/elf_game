@@ -1,5 +1,5 @@
 """
-Calculate some proper statistics
+Statistical analysis of result distributions.
 """
 
 import os
@@ -11,6 +11,8 @@ from math import sqrt
 from collections import Counter
 
 from sim_game import Game
+
+# import all the strategies
 from main_vd import MainVD
 from unethical import Unethical
 from libertarian import Libertarian
@@ -21,6 +23,9 @@ from early_inv import Early
 from joker import Joker
 from twoface import TwoFace
 
+# mapping from names to callables returning a strategy. implemented like this
+# in case a more complicated object wants instantiation, as this could be
+# wrapped in a lambda
 players = {"mvd": MainVD,
            "unethical": Unethical,
            "libertarian": Libertarian,
@@ -32,6 +37,7 @@ players = {"mvd": MainVD,
            "joker": Joker,
            "twoface": TwoFace}
 
+# argv handling
 def get_args():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("-n", type=int, default=10000, help="number of datasets to generate")
@@ -39,6 +45,8 @@ def get_args():
     parser.add_argument("--player", type=str, default=[], nargs="*", choices=players.keys(), help="player to analyse")
     parser.add_argument("--quiet", action="store_true", help="suppress non-csv output")
     return parser.parse_args()
+
+# calculating statistics about data
 
 def mean(data):
     mean = sum(data) / len(data)
@@ -49,6 +57,7 @@ def mean(data):
 def mode(data):
     return Counter(data).most_common(1)[0]
 
+# "manually" generating data, with some optional logging
 def get_data(n, player, quiet):
     quiet or print("collecting data for {}".format(player))
     start = time.time()
@@ -68,6 +77,9 @@ def get_data(n, player, quiet):
     serialise(data, player, quiet)
     return data
 
+# serialise a data set to a file, creating directories if necessary. this is
+# always performed when data is generated as data can be quite expensive to
+# generate.
 def serialise(data, name, quiet):
     fname = datetime.datetime.now().strftime("datasets/{0}/{1}-%Y-%m-%d-%H-%M-%S.dat".format(name, len(data)))
     quiet or print("serialising to {!r}".format(fname))
@@ -78,6 +90,7 @@ def serialise(data, name, quiet):
             datafile.write("{}\n".format(datum)) 
     quiet or print("serialised")
 
+# read previously serialised data from a file
 def fromfile(dfile, quiet):
     start = time.time()
     quiet or print("reading data from file")
@@ -87,6 +100,7 @@ def fromfile(dfile, quiet):
     quiet or print("sorted data at {:.3f}".format(time.time() - start))
     return data
 
+# boilerplate for getting and displaying statistics
 def stats(data, quiet):
     av, sdev, var = mean(data)
     min_, max_ = data[0], data[-1]
@@ -104,7 +118,6 @@ def stats(data, quiet):
 
 if __name__ == "__main__":
     args = get_args()
-
     for f in args.file:
         stats(fromfile(f, args.quiet), args.quiet)
     for p in args.player:

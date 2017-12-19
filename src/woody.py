@@ -1,5 +1,6 @@
 """
-Variation of the Main-van Dongen strategy that always sends elves into woods
+Variation of the Main-van Dongen strategy that always sends elves into woods.
+Lives a boring but peaceful life and knows all its elves by name.
 """
 
 from sim_game import Game

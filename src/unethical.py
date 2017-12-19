@@ -1,5 +1,6 @@
 """
-Unethical variant of Main-van Dongen strategy
+Unethical variant of Main-van Dongen strategy - doesn't allow days off, no
+christmas presents and doesn't pay tax.
 """
 
 from sim_game import Game

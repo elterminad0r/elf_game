@@ -1,5 +1,5 @@
 """
-Stingy variant of the Main-van Dongen strategy
+Stingy variant of the Main-van Dongen strategy - never buys elves.
 """
 
 from sim_game import Game

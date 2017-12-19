@@ -1,6 +1,6 @@
 """
 Even more stochastic of the Main-van Dongen strategy (tosses a coin for each
-boolean decision)
+boolean decision), and even randomly guesses for the lottery
 """
 
 from random import randrange, random

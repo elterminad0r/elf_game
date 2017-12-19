@@ -1,5 +1,5 @@
 """
-Libertarian variant of Main-van Dongen strategy (doesn't pay taxes)
+Libertarian variant of Main-van Dongen strategy (doesn't pay taxes).
 """
 
 from sim_game import Game

@@ -1,5 +1,6 @@
 """
-Mountain-favouring variant of the Main-van Dongen strategy
+Mountain-favouring variant of the Main-van Dongen strategy - parametrised by a
+ratio of elves to send to the moutnain when available.
 """
 
 from sim_game import Game

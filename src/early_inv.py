@@ -1,5 +1,6 @@
 """
-Implementation of the Main-van Dongen strategy
+Slight variant of the Main-van Dongen strategy - doesn't buy elves the second
+time.
 """
 
 from sim_game import Game

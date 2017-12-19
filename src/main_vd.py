@@ -1,5 +1,9 @@
 """
-Implementation of the Main-van Dongen strategy
+Implementation of the Main-van Dongen strategy - pays taxes, allows days off,
+gives christmas presents and always sends elves to the forest - except on the
+last day, when the ungrateful little buggers go to the mountain to die. Always
+invests heavily in new elves. Some elves were whipped in the making of this
+script.
 """
 
 from sim_game import Game

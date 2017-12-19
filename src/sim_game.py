@@ -1,11 +1,17 @@
 """
-OOP simulating an elf game, as per LWB 18/12
+Simulating the elf game, as executed by LWB, in an object-oriented model.
 """
+
+# TODO speed considerations
+
+# TODO add exceptions while maintaining speed (maybe implement a separate
+# verbose class)
 
 from random import random, randrange
 from collections import deque
 from enum import Enum
 
+# possible "special" events
 class Events(Enum):
     STRIKE   = 0
     MTN_OPEN = 1
@@ -14,6 +20,7 @@ class Events(Enum):
     XMAS_EVE = 4
     LOTTERY  = 5
 
+# the default schedule, used by the sheet
 SCHEDULE = { 6: Events.LOTTERY,
              8: Events.STRIKE,
             11: Events.MTN_OPEN,
@@ -27,6 +34,8 @@ SCHEDULE = { 6: Events.LOTTERY,
             23: Events.LOTTERY,
             25: Events.XMAS_EVE}
 
+# exception classes that may yet be implemented
+
 class GameFoul(Exception):
     pass
 
@@ -34,7 +43,16 @@ class GameEnd(Exception):
     pass
 
 class Game:
+    """
+    A class simulating a whole elf game. The class accepts a "handler"
+    namespace (suggested to be implemented as a class) which it makes calls to.
+    The handler has full access to the game state and this class, and is
+    expected not to mutate the game or otherwise cheat (eg by making an invalid
+    move)
+    """
+
     def __init__(self, handler, *, starting_elves=12, days=25, sched=SCHEDULE, verbose=False):
+        # initialise state
         self.day = 0
         self.money = 0
         self.elves = starting_elves
@@ -45,8 +63,12 @@ class Game:
         self.mtn_open = False
         self.handler = handler
         self.extra_tax = 0
+
+        # play until finished, using a deque to quickly consume the play
+        # function iterator
         deque(iter(self.play, 1), maxlen=0)
 
+    # execute a "day". returns 1 when finished
     def play(self):
         self.day += 1
         self.verb and print("\nday {}".format(self.day))
@@ -75,6 +97,7 @@ class Game:
             self.extra_tax = 0
         self.verb and print("left with £{} and {} elves".format(self.money, self.elves))
 
+    # handler methods for other events
     def lottery(self):
         guess = self.handler.lottery(self)
         if guess == randrange(1, 7) + randrange(1, 7):
@@ -126,6 +149,7 @@ class Game:
         else:
             self.verb and print("you, the grinch, didn't pay your elves anything. bah humbug")
 
+    # Static dictionary of event handler methods
     extra_meths = {
             Events.LOTTERY:  lottery,
             Events.STRIKE:   strike,

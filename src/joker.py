@@ -1,6 +1,7 @@
 """
-Stochastic of the Main-van Dongen strategy (randomly decides whether or not to
-send elves to the mountain, and how many)
+Stochastic variant of the Main-van Dongen strategy (randomly decides whether or
+not to send elves to the mountain, and how many, using a uniform distribution
+between 0 and the number of elves).
 """
 
 from random import randrange, random
