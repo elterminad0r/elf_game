@@ -19,10 +19,10 @@ from libertarian import Libertarian
 from mtn_dew import MtnDew
 from woody import Woody
 from stingy import Stingy
-from early_inv import Early
 from joker import Joker
 from twoface import TwoFace
 from shrewd import Shrewd
+from clegane import Clegane
 
 # mapping from names to callables returning a strategy. implemented like this
 # in case a more complicated object wants instantiation, as this could be
@@ -34,11 +34,11 @@ players = {"mvd": MainVD,
            "half_mountain": lambda: MtnDew(0.5),
            "woody": Woody,
            "stingy": Stingy,
-           "early": Early,
            "joker": Joker,
            "twoface": TwoFace,
            "shrewd": Shrewd,
-           "jefferson": lambda: MtnDew(1)}
+           "jefferson": lambda: MtnDew(1),
+           "clegane": Clegane}
 
 # argv handling
 def get_args():

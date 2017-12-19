@@ -1,5 +1,6 @@
 """
-Stingy variant of the Main-van Dongen strategy - never buys elves.
+Stingy variant of the Main-van Dongen strategy - doesn't buy elves the second
+time round.
 """
 
 from sim_game import Game
@@ -17,7 +18,9 @@ class Stingy:
         return True
 
     def elf_hire(self, game):
-        return 0
+        if game.days - game.day < 10:
+            return 0
+        return game.money // 75
 
     def tax_man(self, game):
         return True

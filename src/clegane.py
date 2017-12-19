@@ -1,13 +1,13 @@
 """
-Slight variant of the Main-van Dongen strategy - doesn't buy elves the second
-time.
+Variant of the Main-van Dongen strategy that takes the Gregor Clegane approach
+- displays no ethics and is a big fan of mountains
 """
 
 from sim_game import Game
 
-class Early:
+class Clegane:
     def play(self, game):
-        if game.day == game.days - 1:
+        if game.mtn_open:
             return 0, 0, game.elves
         return 0, game.elves, 0
 
@@ -15,19 +15,17 @@ class Early:
         return 7
 
     def strike(self, game):
-        return True
+        return False
 
     def elf_hire(self, game):
-        if game.days - game.day > 10:
-            return game.money // 75
-        return 0
+        return game.money // 75
 
     def tax_man(self, game):
-        return True
+        return False
 
     def xmas_eve(self, game):
-        return True
+        return False
 
 if __name__ == "__main__":
-    game = Game(Early(), verbose=True)
+    game = Game(Clegane(), verbose=True)
     print("money made: {}".format(game.money))

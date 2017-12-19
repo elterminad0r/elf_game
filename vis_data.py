@@ -40,6 +40,8 @@ if __name__ == "__main__":
         data = read_data(dfile)
         plot_data(ax, data, dfile)
 
-    plt.savefig("figs.pdf")
+    wm = plt.get_current_fig_manager()
+    wm.resize(*wm.window.maxsize())
     plt.tight_layout()
+    plt.savefig("figs.pdf")
     plt.show()
