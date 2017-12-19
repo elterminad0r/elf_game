@@ -22,6 +22,7 @@ from stingy import Stingy
 from early_inv import Early
 from joker import Joker
 from twoface import TwoFace
+from shrewd import Shrewd
 
 # mapping from names to callables returning a strategy. implemented like this
 # in case a more complicated object wants instantiation, as this could be
@@ -35,7 +36,8 @@ players = {"mvd": MainVD,
            "stingy": Stingy,
            "early": Early,
            "joker": Joker,
-           "twoface": TwoFace}
+           "twoface": TwoFace,
+           "shrewd": Shrewd}
 
 # argv handling
 def get_args():

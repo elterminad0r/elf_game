@@ -5,6 +5,7 @@ src/joker.py | Stochastic variant of the Main-van Dongen strategy (randomly deci
 src/libertarian.py | Libertarian variant of Main-van Dongen strategy (doesn't pay taxes).
 src/main\_vd.py | Implementation of the Main-van Dongen strategy - pays taxes, allows days off, gives christmas presents and always sends elves to the forest - except on the last day, when the ungrateful little buggers go to the mountain to die. Always invests heavily in new elves. Some elves were whipped in the making of this script.
 src/mtn\_dew.py | Mountain-favouring variant of the Main-van Dongen strategy - parametrised by a ratio of elves to send to the moutnain when available.
+src/shrewd.py | Shrewd optimisation of the Main-van Dongen strategy, which starts sending elves to the mountain a little earlier. Here, the "worth" of an elf is not calculated by the actual cost but by time remaining.
 src/stingy.py | Stingy variant of the Main-van Dongen strategy - never buys elves.
 src/twoface.py | Even more stochastic of the Main-van Dongen strategy (tosses a coin for each boolean decision), and even randomly guesses for the lottery
 src/unethical.py | Unethical variant of Main-van Dongen strategy - doesn't allow days off, no christmas presents and doesn't pay tax.
