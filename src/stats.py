@@ -102,19 +102,19 @@ def fromfile(dfile, quiet):
 
 # boilerplate for getting and displaying statistics
 def stats(data, quiet):
-    av, sdev, var = mean(data)
+    av, sdev, var = map(int, mean(data))
     min_, max_ = data[0], data[-1]
     size = len(data)
     lq, med, uq = data[size // 4], data[size // 2], data[size * 3 // 4]
     modeval, occ = mode(data)
     occ /= size
     if not quiet:
-        print("average £{:.0f} ± £{:.0f} (variance £²{:.0f})".format(av, sdev, var))
-        print("min: £{}; max: £{}".format(min_, max_))
-        print("LQ: £{}; median: £{}; UQ: £{}".format(lq, med, uq))
-        print("mode £{} occurred {:.3%}".format(modeval, occ))
-        print("sample size {}".format(len(data)))
-    print("{:.0f} ± {:.0f},{:.0f},{},{},{},{},{},{},{:.3f},{}".format(av, sdev, var, min_, lq, med, uq, max_, modeval, occ * 100, size))
+        print("average £{:,} ± £{:,} (variance £²{:,})".format(av, sdev, var))
+        print("min: £{:,}; max: £{:,}".format(min_, max_))
+        print("LQ: £{:,}; median: £{:,}; UQ: £{:,}".format(lq, med, uq))
+        print("mode £{:,} occurred {:.3%}".format(modeval, occ))
+        print("sample size {:,}".format(len(data)))
+    print("{:,} ± {:,}\t{:,}\t{:,}\t{:,}\t{:,}\t{:,}\t{:,}\t{:,}\t{:.4f}\t{:,}".format(av, sdev, var, min_, lq, med, uq, max_, modeval, occ * 100, size))
 
 if __name__ == "__main__":
     args = get_args()
