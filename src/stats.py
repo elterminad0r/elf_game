@@ -117,7 +117,7 @@ def stats(data, quiet):
         print("LQ: £{:,}; median: £{:,}; UQ: £{:,}".format(lq, med, uq))
         print("mode £{:,} occurred {:.3%}".format(modeval, occ))
         print("sample size {:,}".format(len(data)))
-    print("{:,} ± {:,}\t{:,}\t{:,}\t{:,}\t{:,}\t{:,}\t{:,}\t{:,}\t{:.4f}\t{:,}".format(av, sdev, var, min_, lq, med, uq, max_, modeval, occ * 100, size))
+    print("{:,}\t± {:,}\t{:,}\t{:,}\t{:,}\t{:,}\t{:,}\t{:,}\t{:,}\t{:.4f}\t{:,}".format(av, sdev, var, min_, lq, med, uq, max_, modeval, occ * 100, size))
 
 if __name__ == "__main__":
     args = get_args()
