@@ -8,6 +8,7 @@ import datetime
 import argparse
 
 from math import sqrt
+from collections import Counter
 
 from sim_game import Game
 from main_vd import MainVD
@@ -15,18 +16,28 @@ from unethical import Unethical
 from libertarian import Libertarian
 from mtn_dew import MtnDew
 from woody import Woody
+from stingy import Stingy
+from early_inv import Early
+from joker import Joker
+from twoface import TwoFace
 
 players = {"mvd": MainVD,
            "unethical": Unethical,
            "libertarian": Libertarian,
            "mtn_dew": lambda: MtnDew(0.2),
-           "woody": Woody}
+           "half_mountain": lambda: MtnDew(0.5),
+           "woody": Woody,
+           "stingy": Stingy,
+           "early": Early,
+           "joker": Joker,
+           "twoface": TwoFace}
 
 def get_args():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("-n", type=int, default=10000, help="number of datasets to generate")
-    parser.add_argument("--file", type=argparse.FileType("r"), help="file to read data from")
-    parser.add_argument("--player", type=str, default="mvd", choices=players.keys(), help="player to analyse")
+    parser.add_argument("--file", type=argparse.FileType("r"), default=[], nargs="*", help="file to read data from")
+    parser.add_argument("--player", type=str, default=[], nargs="*", choices=players.keys(), help="player to analyse")
+    parser.add_argument("--quiet", action="store_true", help="suppress non-csv output")
     return parser.parse_args()
 
 def mean(data):
@@ -35,51 +46,65 @@ def mean(data):
     std_dev = sqrt(var)
     return mean, std_dev, var
 
-def get_data(n, player):
-    print("collecting data for {}".format(player))
+def mode(data):
+    return Counter(data).most_common(1)[0]
+
+def get_data(n, player, quiet):
+    quiet or print("collecting data for {}".format(player))
     start = time.time()
     data = []
-    print("intitialised at {:.3f}s".format(time.time() - start))
+    quiet or print("intitialised at {:.3f}s".format(time.time() - start))
     try:
         for i in range(n):
-            if i % (n // 100 or 1) == 0:
+            if i % (n // 100 or 1) == 0 and not quiet:
                 print("\r({:.3f}s) progress: {:4.0%} {}".format(time.time() - start, i / n, "." * (i * 100 // n)), end="")
             data.append(Game(players[player]()).money)
     except KeyboardInterrupt:
         pass
-    print("\ndone; completed {} games in {:.3f}s (that's {:.0f} games/s)".format(len(data), time.time() - start, len(data) / (time.time() - start)))
-    print("sorting")
+    quiet or print("\ndone; completed {} games in {:.3f}s (that's {:.0f} games/s)".format(len(data), time.time() - start, len(data) / (time.time() - start)))
+    quiet or print("sorting")
     data.sort()
-    print("sorted")
-    serialise(data, player)
+    quiet or print("sorted")
+    serialise(data, player, quiet)
     return data
 
-def serialise(data, name):
+def serialise(data, name, quiet):
     fname = datetime.datetime.now().strftime("datasets/{0}/{1}-%Y-%m-%d-%H-%M-%S.dat".format(name, len(data)))
-    print("serialising to {!r}".format(fname))
+    quiet or print("serialising to {!r}".format(fname))
     os.makedirs("datasets", exist_ok=True)
     os.makedirs("datasets/{}".format(name), exist_ok=True)
     with open(fname, "w") as datafile:
         for datum in data:
             datafile.write("{}\n".format(datum)) 
-    print("serialised")
+    quiet or print("serialised")
 
-def fromfile(dfile):
+def fromfile(dfile, quiet):
     start = time.time()
-    print("reading data from file")
-    data = list(map(int, args.file))
-    print("read data at {:.3f}".format(time.time() - start))
+    quiet or print("reading data from file")
+    data = list(map(int, dfile))
+    quiet or print("read data at {:.3f}".format(time.time() - start))
     data.sort()
-    print("sorted data at {:.3f}".format(time.time() - start))
+    quiet or print("sorted data at {:.3f}".format(time.time() - start))
     return data
+
+def stats(data, quiet):
+    av, sdev, var = mean(data)
+    min_, max_ = data[0], data[-1]
+    lq, med, uq = data[len(data) // 4], data[len(data) // 2], data[len(data) * 3 // 4]
+    size = len(data)
+    modeval, occ = mode(data)
+    if not quiet:
+        print("average £{:.0f} ± £{:.0f} (variance £²{:.0f})".format(av, sdev, var))
+        print("min: £{}; max: £{}".format(min_, max_))
+        print("LQ: £{}; median: £{}; UQ: £{}".format(lq, med, uq))
+        print("mode £{} occurred {} times".format(modeval, occ))
+        print("sample size {}".format(len(data)))
+    print("{:.0f} ± {:.0f},{:.0f},{},{},{},{},{},{},{},{}".format(av, sdev, var, min_, lq, med, uq, max_, modeval, occ, size))
 
 if __name__ == "__main__":
     args = get_args()
-    if args.file:
-        data = fromfile(args.file)
-    else:
-        data = get_data(args.n, args.player)
 
-    print("average £{:.0f} ± £{:.0f} (variance £²{:.0f})".format(*mean(data)))
-    print("min: {}; max: {}".format(data[0], data[-1]))
-    print("LQ: {}; median: {}; UQ: {}".format(data[len(data) // 4], data[len(data) // 2], data[len(data) * 3 // 4]))
+    for f in args.file:
+        stats(fromfile(f, args.quiet), args.quiet)
+    for p in args.player:
+        stats(get_data(args.n, p, args.quiet), args.quiet)
