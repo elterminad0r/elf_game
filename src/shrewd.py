@@ -2,11 +2,10 @@
 Shrewd optimisation of the Main-van Dongen strategy, which starts sending elves
 to the mountain a little earlier. Here, the "worth" of an elf is not calculated by
 the actual cost but by time remaining.
+The magic number 6 is calculated by solving
+40 / 3 < (200 - 40r / 3) / 6
+... and a little bit of trial and error
 """
-
-# The magic number 6 is calculated by solving
-# 40 / 3 < (200 - 40r / 3) / 6
-# and a little bit of trial and error
 
 from sim_game import Game
 
