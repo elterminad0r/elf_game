@@ -1,4 +1,4 @@
-strategy name | avg ± std. dev / £ | variance / £<sup>2</sup> | min / £ | LQ / £ | median / £ | UQ / £ | max / £ | mode / £ | mode freq / % | sample size
+name | avg ± sd / £ | var / £<sup>2</sup> | min / £ | LQ / £ | med / £ | UQ / £ | max / £ | mode / £ | mode freq / % | sample
 ---|---|---|---|---|---|---|---|---|---|---
 mvd | 4957 ± 1677 | 2811248 | 0 | 3759 | 4845 | 6001 | 11858 | 5289 | 0.505 | 3920001
 mtn\_dew | 4858 ± 2618 | 6855810 | 0 | 2916 | 4390 | 6307 | 17612 | 14088 | 0.099 | 2775409
