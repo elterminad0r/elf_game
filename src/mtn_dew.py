@@ -1,6 +1,8 @@
 """
 Mountain-favouring variant of the Main-van Dongen strategy - parametrised by a
-ratio of elves to send to the moutnain when available.
+ratio of elves to send to the moutnain when available. NB that `mtn_dew` uses
+the ratio 1 / 5, `half_mountain` is a duplicate using the ratio 1 / 2, and
+`jefferson` uses the ratio 1.
 """
 
 from sim_game import Game

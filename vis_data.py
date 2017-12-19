@@ -34,7 +34,7 @@ def plot_data(ax, data, dfile):
 
 if __name__ == "__main__":
     args = get_args()
-    f, axes = plt.subplots(len(args.input) // args.width + 1, args.width)
+    f, axes = plt.subplots((len(args.input) - 1) // args.width + 1, args.width)
     for ax, dfile in zip(itertools.chain.from_iterable(axes), args.input):
         print("working on {}".format(dfile))
         data = read_data(dfile)

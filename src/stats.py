@@ -37,7 +37,8 @@ players = {"mvd": MainVD,
            "early": Early,
            "joker": Joker,
            "twoface": TwoFace,
-           "shrewd": Shrewd}
+           "shrewd": Shrewd,
+           "jefferson": lambda: MtnDew(1)}
 
 # argv handling
 def get_args():
