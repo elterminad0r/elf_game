@@ -1,6 +1,6 @@
 #!/usr/bin/zsh
 
-for i in datasets/*; do
-    echo -n "\n$i,";
-    cat $i/* | pypy stats.py --file - --quiet;
+for i in mvd mtn_dew libertarian early half_mountain unethical joker stingy woody twoface; do
+    echo -n "$i | " | sed "s/_/\\\\_/g";
+    cat datasets/$i/* | pypy stats.py --file - --quiet | sed "s/,/ | /g";
 done;
