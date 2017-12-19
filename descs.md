@@ -1,4 +1,5 @@
 Strategy filename | Strategy description
+---|---
 src/early\_inv.py | Slight variant of the Main-van Dongen strategy - doesn't buy elves the second time.
 src/joker.py | Stochastic variant of the Main-van Dongen strategy (randomly decides whether or not to send elves to the mountain, and how many, using a uniform distribution between 0 and the number of elves).
 src/libertarian.py | Libertarian variant of Main-van Dongen strategy (doesn't pay taxes).

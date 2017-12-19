@@ -16,6 +16,7 @@ def get_doc(docfile):
 if __name__ == "__main__":
     args = get_args()
     print("Strategy filename | Strategy description")
+    print("---|---")
     for f in args.input:
         doc = get_doc(f)
         if "strategy" in doc.lower():
