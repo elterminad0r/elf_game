@@ -21,13 +21,12 @@ from woody import Woody
 from stingy import Stingy
 from joker import Joker
 from twoface import TwoFace
-from shrewd import Shrewd
 from clegane import Clegane
 
 # mapping from names to callables returning a strategy. implemented like this
 # in case a more complicated object wants instantiation, as this could be
 # wrapped in a lambda
-players = {"mvd": MainVD,
+players = {"mvd": lambda: MainVD(1),
            "unethical": Unethical,
            "libertarian": Libertarian,
            "mtn_dew": lambda: MtnDew(0.2),
@@ -36,7 +35,7 @@ players = {"mvd": MainVD,
            "stingy": Stingy,
            "joker": Joker,
            "twoface": TwoFace,
-           "shrewd": Shrewd,
+           "shrewd": lambda: MainVD(5),
            "jefferson": lambda: MtnDew(1),
            "clegane": Clegane}
 
@@ -47,6 +46,7 @@ def get_args():
     parser.add_argument("--file", type=argparse.FileType("r"), default=[], nargs="*", help="file to read data from")
     parser.add_argument("--player", type=str, default=[], nargs="*", choices=players.keys(), help="player to analyse")
     parser.add_argument("--quiet", action="store_true", help="suppress non-csv output")
+    parser.add_argument("--no-store", action="store_true", help="do not write data to .dat files")
     return parser.parse_args()
 
 # calculating statistics about data
@@ -61,7 +61,7 @@ def mode(data):
     return Counter(data).most_common(1)[0]
 
 # "manually" generating data, with some optional logging
-def get_data(n, player, quiet):
+def get_data(n, player, quiet, no_store):
     quiet or print("collecting data for {}".format(player))
     start = time.time()
     data = []
@@ -77,7 +77,7 @@ def get_data(n, player, quiet):
     quiet or print("sorting")
     data.sort()
     quiet or print("sorted")
-    serialise(data, player, quiet)
+    no_store or serialise(data, player, quiet)
     return data
 
 # serialise a data set to a file, creating directories if necessary. this is
@@ -124,4 +124,4 @@ if __name__ == "__main__":
     for f in args.file:
         stats(fromfile(f, args.quiet), args.quiet)
     for p in args.player:
-        stats(get_data(args.n, p, args.quiet), args.quiet)
+        stats(get_data(args.n, p, args.quiet, args.no_store), args.quiet)

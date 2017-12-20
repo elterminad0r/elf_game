@@ -11,7 +11,7 @@ def get_args():
     return parser.parse_args()
 
 def get_doc(docfile):
-    return " ".join(re.match(r'"""(.*?)"""', docfile.read(), re.MULTILINE | re.DOTALL).group(1).split())
+    return re.match(r'"""(.*?)"""', docfile.read(), re.MULTILINE | re.DOTALL).group(1).strip().replace("\n\n", "<br>").replace("\n", " ")
 
 if __name__ == "__main__":
     args = get_args()
